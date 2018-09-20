@@ -4,11 +4,13 @@ services:
     image: nginx:alpine
     volumes:
     - ./public:/code
+    - typo3temp:/code/typo3temp
+    - ../:/code/typo3conf/ext/wizard_crpagetree
     - ./Configuration/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
     - "80:80"
   db:
-    image: mariadb:latest
+    image: percona:latest
     env_file:
     - ./.env
     ports:
@@ -18,11 +20,21 @@ services:
 
     # Use tmpfs for file storage
     - db:/var/lib/mysql
+
+    # Copy custom configuration
+    - ./Configuration/mysql.cnf:/etc/mysql/zzz-custom.cnf
   php:
     build: ./Configuration/
     volumes:
     - ./public:/code
-    - ./Configuration/php.conf:/usr/local/etc/php-fpm.d/zz-custom.conf
+    - typo3temp:/code/typo3temp
+    - ../:/code/typo3conf/ext/wizard_crpagetree
+
+    # Copy custom fpm configuration
+    - ./Configuration/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-custom-fpm.conf
+
+    # Copy custom ini configuration
+    - ./Configuration/php.ini:/usr/local/etc/php/conf.d/zzz-custom.ini
 
 networks:
   default:
@@ -34,6 +46,10 @@ volumes:
       type: tmpfs
       device: tmpfs
   run:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  typo3temp:
     driver_opts:
       type: tmpfs
       device: tmpfs

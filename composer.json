@@ -41,7 +41,9 @@
   "scripts": {
     "post-autoload-dump": [
       "mkdir -p .Build/public/typo3conf/ext/",
-      "[ -L .Build/public/typo3conf/ext/wizard_crpagetree ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/wizard_crpagetree"
+      "mkdir -p .Build/public/typo3temp/",
+      "touch .Build/public/FIRST_INSTALL",
+      "chmod -R ugo+rwX .Build/public"
     ]
   },
   "license": "GPL-2.0+"
