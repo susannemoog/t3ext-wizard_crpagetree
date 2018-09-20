@@ -1,4 +1,4 @@
-/.idea
+/.idea/
 /.Build/*
 !/.Build/Configuration
 !/.Build/Configuration/*

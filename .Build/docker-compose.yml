@@ -18,8 +18,11 @@ services:
     volumes:
     - run:/var/run/mysqld
 
+    # Initialize database
+    - ./Configuration:/docker-entrypoint-initdb.d/
+
     # Use tmpfs for file storage
-    - db:/var/lib/mysql
+    #- db:/var/lib/mysql
 
     # Copy custom configuration
     - ./Configuration/mysql.cnf:/etc/mysql/zzz-custom.cnf
