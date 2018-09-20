@@ -16,7 +16,8 @@ services:
     ports:
     - "8001:5432"
     volumes:
-    - run:/var/run/mysqld
+    # Share socket
+    - mysqlSocket:/var/run/mysqld
 
     # Initialize database
     - ./Configuration:/docker-entrypoint-initdb.d/
@@ -38,6 +39,7 @@ services:
 
     # Copy custom ini configuration
     - ./Configuration/php.ini:/usr/local/etc/php/conf.d/zzz-custom.ini
+    - mysqlSocket:/var/run/mysqld
 
 networks:
   default:
@@ -48,7 +50,7 @@ volumes:
     driver_opts:
       type: tmpfs
       device: tmpfs
-  run:
+  mysqlSocket:
     driver_opts:
       type: tmpfs
       device: tmpfs

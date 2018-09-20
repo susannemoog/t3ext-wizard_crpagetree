@@ -41,6 +41,7 @@
   "scripts": {
     "post-autoload-dump": [
       "mkdir -p .Build/public/typo3conf/ext/",
+      "cp .Build/Configuration/LocalConfiguration.php .Build/public/typo3conf/",
       "mkdir -p .Build/public/typo3temp/",
       "touch .Build/public/FIRST_INSTALL",
       "chmod -R ugo+rwX .Build/public"
