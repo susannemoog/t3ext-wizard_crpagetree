@@ -1,40 +1,31 @@
 <?php
 namespace MichielRoos\WizardCrpagetree;
 
-/**
- *  Copyright notice
+/*
+ * This file is part of the TYPO3 CMS project.
  *
- *  ⓒ 2015 Michiel Roos <michiel@maxserv.com>
- *  All rights reserved
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is free
- *  software; you can redistribute it and/or modify it under the terms of the
- *  GNU General Public License as published by the Free Software Foundation;
- *  either version 2 of the License, or (at your option) any later version.
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful, but
- *  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- *  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- *  more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
+ * The TYPO3 project - inspiring people to share!
  */
+
 use TYPO3\CMS\Backend\Tree\View\BrowseTreeView;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\Utility\IconUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * Creates the "Create pagetree" wizard
  *
- * @author   Michiel Roos <extensions@donationbasedhosting.org>
  * @package TYPO3
  * @subpackage tx_wizardcrpagetree
  */
@@ -48,7 +39,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
     public function main()
     {
         $theCode = '';
-        $pageTree = array();
+        $pageTree = [];
         // create new pages here?
         $pRec = BackendUtility::getRecord('pages', $this->pObj->id, 'uid, title', ' AND ' . $GLOBALS['BE_USER']->getPagePermsClause(8));
         $sysPages = GeneralUtility::makeInstance(PageRepository::class);
@@ -77,15 +68,14 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
                     $originalData = $this->getArray($data, 0, $ic);
                     $reversedData = $this->reverseArray($originalData);
                     $data = $this->compressArray($reversedData);
-                    //$data = $this->compressArray($originalData);
 
                     if ($data) {
                         $pageIndex = count($data);
                         $sorting = count($data);
                         $oldLevel = 0;
-                        $parentPid = array();
+                        $parentPid = [];
                         $currentPid = 0;
-                        while (list($k, $line) = each($data)) {
+                        foreach ($data as $k => $line) {
                             if (trim($line)) {
                                 // What level are we on?
                                 preg_match('/^' . $ic . '*/', $line, $regs);
@@ -132,7 +122,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
                         $tce->stripslashes_values = 0;
                         //reverseOrder does not work with nested arrays
                         //$tce->reverseOrder=1;
-                        $tce->start($pageTree, array());
+                        $tce->start($pageTree, []);
                         $tce->process_datamap();
                         BackendUtility::setUpdateSignal('updatePageTree');
                     } else {
@@ -149,17 +139,17 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
 
                     if (version_compare(TYPO3_branch, '6.2', '>')) {
                         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-                        $tree->tree[] = array(
+                        $tree->tree[] = [
                             'row' => $pRec,
-                            'HTML' => $iconFactory->getIconForRecord('pages', array($thePid), Icon::SIZE_SMALL)->render()
-                        );
+                            'HTML' => $iconFactory->getIconForRecord('pages', [$thePid], Icon::SIZE_SMALL)->render()
+                        ];
                     }
                     if (version_compare(TYPO3_branch, '6.2', '=')) {
                         $tree->setTreeName('pageTree');
-                        $tree->tree[] = array(
+                        $tree->tree[] = [
                             'row' => $pRec,
                             'HTML' => IconUtility::getSpriteIconForRecord('pages', $pRec)
-                        );
+                        ];
                     }
                     $tree->getTree($thePid);
 
@@ -188,7 +178,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
      */
     private function compressArray($data)
     {
-        $newData = array();
+        $newData = [];
         foreach ($data as $value) {
             if ($value['value']) {
                 $newData[] = $value['value'];
@@ -213,9 +203,9 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
     private function getArray($data, $oldLevel = 0, $character = ' ')
     {
         $size = count($data);
-        $newData = array();
+        $newData = [];
         for ($i = 0; $i < $size;) {
-            $regs = array();
+            $regs = [];
             $v = $data[$i];
             if (trim($v)) {
                 // What level are we on?
@@ -229,9 +219,9 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
                      * function. Then increase the $i to point to the point where the
                      * level is the same as we are on now.
                      */
-                    $subData = array();
+                    $subData = [];
                     for ($j = $i; $j < $size; $j++) {
-                        $regs = array();
+                        $regs = [];
                         $v = $data[$j];
                         if (trim($v)) {
                             // What level are we on?
@@ -269,7 +259,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
      */
     private function reverseArray($data)
     {
-        $newData = array();
+        $newData = [];
         $index = 0;
         foreach ($data as $chunk) {
             if (is_array($chunk['data'])) {
@@ -293,7 +283,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
      */
     private function filterComments($data)
     {
-        $newData = array();
+        $newData = [];
         $multiLine = false;
         foreach ($data as $value) {
             // Multiline comment

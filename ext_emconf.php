@@ -1,6 +1,6 @@
 <?php
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Web>Func, Wizards, Create page tree',
     'description' => 'Wizard that will create a page tree for you. Feed it with a space indented tree structure of the desired pages and the pages will be created for you.',
     'category' => 'module',
@@ -17,24 +17,24 @@ $EM_CONF[$_EXTKEY] = array(
     'modify_tables' => '',
     'clearcacheonload' => 0,
     'lockType' => '',
-    'autoload' => array(
-        'psr-4' => array('MichielRoos\\WizardCrpagetree\\' => 'Classes'),
-        'classmap' => array('Classes')
-    ),
+    'autoload' => [
+        'psr-4' => ['MichielRoos\\WizardCrpagetree\\' => 'Classes'],
+        'classmap' => ['Classes']
+    ],
     'author' => 'Michiel Roos',
-    'author_email' => 'extensions@donationbasedhosting.org',
-    'author_company' => 'Donation Based Hosting',
+    'author_email' => 'michiel@michielroos.com',
+    'author_company' => 'Michiel Roos',
     'CGLcompliance' => '',
     'CGLcompliance_note' => '',
-    'constraints' => array(
-        'depends' => array(
+    'constraints' => [
+        'depends' => [
             'func' => '',
             'typo3' => '6.2.0-7.99.99',
             'php' => '5.3.0-0.0.0',
-        ),
-        'conflicts' => array(),
-        'suggests' => array(),
-    ),
-    'suggests' => array(),
+        ],
+        'conflicts' => [],
+        'suggests' => [],
+    ],
+    'suggests' => [],
     '_md5_values_when_last_written' => 's:0:""',
-);
+];
