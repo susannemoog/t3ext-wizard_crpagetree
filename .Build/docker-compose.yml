@@ -36,7 +36,7 @@ services:
     volumes:
     - .:/build
     - typo3confRamdisk:/typo3conf
-    command: "sh -c \"cp -u /build/Configuration/typo3/* /typo3conf/ && touch /typo3conf/ENABLE_INSTALL_TOOL && cp -ur /build/public/typo3conf/ext /typo3conf && chown -R 33:33 /typo3conf\""
+    command: "sh -c \"cp -u /build/Configuration/typo3/* /typo3conf/ && touch /typo3conf/ENABLE_INSTALL_TOOL && cp -ur /build/public/typo3conf/ext /typo3conf && chmod o+w /typo3conf/*\""
   mailhog:
     image: mailhog/mailhog
     expose: [8025]
