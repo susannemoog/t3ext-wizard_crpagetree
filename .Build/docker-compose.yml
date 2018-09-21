@@ -4,11 +4,7 @@ services:
     image: nginx:alpine
     volumes:
     - ../:/code
-
-    # typo3temp in ramdisk
-    - typo3temp:/code/typo3temp
-
-    # Copy custom configuration
+    - typo3tempRamdisk:/code/typo3temp
     - ./Configuration/nginx.conf:/etc/nginx/conf.d/default.conf
     expose: [80]
   db:
@@ -16,53 +12,28 @@ services:
     env_file:
     - ./.env
     volumes:
-    # Share socket
-    - mysqlSocket:/var/run/mysqld
-
-    # Initialize database
     - ./Configuration:/docker-entrypoint-initdb.d/
-
-    # Use tmpfs for file storage
-    - db:/var/lib/mysql
-
-    # Copy custom configuration
+    - dbRamdisk:/var/lib/mysql
     - ./Configuration/mysql.cnf:/etc/mysql/zzz-custom.cnf
   php:
     build: ./Configuration/
     volumes:
     - ../:/code
-
-    # typo3temp in ramdisk
-    - typo3temp:/code/typo3temp
-
-    # Copy custom fpm configuration
+    - typo3tempRamdisk:/code/typo3temp
     - ./Configuration/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-custom-fpm.conf
-
-    # Copy custom ini configuration
     - ./Configuration/php.ini:/usr/local/etc/php/conf.d/zzz-custom.ini
-
-    # Connect to mysql through socket
-    - mysqlSocket:/var/run/mysqld
   hostmapper:
     image: dvdarias/docker-hoster
     volumes:
     - /var/run/docker.sock:/tmp/docker.sock
     - /etc/hosts:/tmp/hosts
 
-networks:
-  default:
-    driver: bridge
-
 volumes:
-  db:
+  dbRamdisk:
     driver_opts:
       type: tmpfs
       device: tmpfs
-  mysqlSocket:
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-  typo3temp:
+  typo3tempRamdisk:
     driver_opts:
       type: tmpfs
       device: tmpfs
