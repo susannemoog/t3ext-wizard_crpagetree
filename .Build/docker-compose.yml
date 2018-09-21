@@ -26,6 +26,7 @@ services:
     - ./Configuration/php/php.ini:/usr/local/etc/php/conf.d/zzz-custom.ini
   mailhog:
     image: mailhog/mailhog
+    expose: [8025]
   hostmap:
     image: dvdarias/docker-hoster
     volumes:

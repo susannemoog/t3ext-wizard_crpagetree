@@ -13,6 +13,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) opcache \
     && docker-php-ext-install -j$(nproc) soap \
     && docker-php-ext-install -j$(nproc) zip \
-    && yes | pecl install xdebug
+    && yes | pecl install xdebug \
+    && curl -L https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 -o mhsendmail_linux_amd64 \
+    && chmod +x mhsendmail_linux_amd64 \
+    && mv mhsendmail_linux_amd64 /usr/local/bin/mhsendmail
 
 # Debug in cli: Type export XDEBUG_CONFIG="idekey=PHPSTORM" in terminal session
