@@ -27,6 +27,7 @@
   },
   "autoload-dev": {
     "psr-4": {
+      "MichielRoos\\WizardCrpagetree\\": "Classes",
       "MichielRoos\\WizardCrpagetree\\Tests\\": "Tests",
       "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests",
       "TYPO3\\CMS\\Fluid\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/fluid/Tests"
@@ -42,8 +43,10 @@
     "post-autoload-dump": [
       "mkdir -p .Build/public/typo3conf/ext/",
       "cp .Build/Configuration/LocalConfiguration.php .Build/public/typo3conf/",
+      "[ -L .Build/public/typo3conf/ext/wizard_crpagetree ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/wizard_crpagetree",
       "mkdir -p .Build/public/typo3temp/",
       "touch .Build/public/FIRST_INSTALL",
+      "touch .Build/public/typo3conf/ENABLE_INSTALL_TOOL",
       "chmod -R ugo+rwX .Build/public"
     ]
   },
