@@ -43,6 +43,11 @@ services:
 
     # Connect to mysql through socket
     - mysqlSocket:/var/run/mysqld
+  hostmapper:
+    image: dvdarias/docker-hoster
+    volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
+    - /etc/hosts:/tmp/hosts
 
 networks:
   default:
