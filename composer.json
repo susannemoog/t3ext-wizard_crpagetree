@@ -42,7 +42,7 @@
     "post-autoload-dump": [
       "mkdir -p .Build/public/{fileadmin,typo3temp,uploads}/ .Build/public/typo3conf/ext/",
       "[ -L .Build/public/typo3conf/ext/wizard_crpagetree ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/wizard_crpagetree",
-      "chmod -R o+rX .Build/public"
+      "chmod -R o+rX . .Build/public"
     ]
   },
   "license": "GPL-2.0+"
