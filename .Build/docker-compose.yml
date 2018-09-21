@@ -10,8 +10,7 @@ services:
 
     # Copy custom configuration
     - ./Configuration/nginx.conf:/etc/nginx/conf.d/default.conf
-    ports:
-    - "80:80"
+    expose: [80]
   db:
     image: percona:latest
     env_file:
