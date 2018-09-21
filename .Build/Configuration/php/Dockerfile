@@ -1,6 +1,7 @@
 FROM php:fpm
 
 RUN apt-get update && apt-get install -y \
+        graphicsmagick \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng-dev \

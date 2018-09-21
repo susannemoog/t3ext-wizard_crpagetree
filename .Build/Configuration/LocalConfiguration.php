@@ -1,7 +1,7 @@
 <?php
 return [
     'BE' => [
-        'debug' => false,
+        'debug' => true,
         'explicitADmode' => 'explicitAllow',
         'installToolPassword' => '$P$CfMZphpqmiVATa9kVzOwj85KMIDPlw1',
         'loginSecurityLevel' => 'normal',
@@ -23,10 +23,18 @@ return [
     ],
     'FE' => [
         'cHashIncludePageId' => true,
-        'debug' => false,
+        'debug' => true,
         'loginSecurityLevel' => 'rsa',
     ],
     'GFX' => [
+        'colorspace' => 'RGB',
+        'im' => 1,
+        'im_mask_temp_ext_gif' => 1,
+        'im_path' => '/usr/bin/',
+        'im_path_lzw' => '/usr/bin/',
+        'im_v5effects' => -1,
+        'im_version_5' => 'gm',
+        'image_processing' => 1,
         'jpg_quality' => '80',
     ],
     'INSTALL' => [
@@ -50,7 +58,7 @@ return [
         ],
     ],
     'MAIL' => [
-        'transport_sendmail_command' => ' -t -i ',
+        'transport_sendmail_command' => '/usr/local/bin/mhsendmail --smtp-addr="mailhog:1025"',
     ],
     'SYS' => [
         'caching' => [
@@ -67,17 +75,17 @@ return [
                 ],
             ],
         ],
-        'clearCacheSystem' => false,
-        'devIPmask' => '',
-        'displayErrors' => 0,
-        'enableDeprecationLog' => false,
+        'clearCacheSystem' => true,
+        'devIPmask' => '*',
+        'displayErrors' => 1,
+        'enableDeprecationLog' => 'file',
         'encryptionKey' => '19bd962627da20dee59d86103bdea1552ad255d688dbcb562e672eaac441908f79f14d99b9d9a01a242989aa3d5b8633',
-        'exceptionalErrors' => 20480,
+        'exceptionalErrors' => 28674,
         'isInitialDatabaseImportDone' => true,
         'isInitialInstallationInProgress' => false,
         'sitename' => 'New TYPO3 site',
-        'sqlDebug' => 0,
-        'systemLogLevel' => 2,
+        'sqlDebug' => 1,
+        'systemLogLevel' => 0,
         't3lib_cs_convMethod' => 'mbstring',
         't3lib_cs_utils' => 'mbstring',
         'trustedHostsPattern' => '.*',
