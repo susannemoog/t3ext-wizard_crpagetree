@@ -8,10 +8,9 @@ return [
     ],
     'DB' => [
         'database' => 'db',
-        'host' => 'localhost',
+        'host' => 'db',
         'password' => 'supersecret',
         'port' => 3306,
-        'socket' => '/var/run/mysqld/mysqld.sock',
         'username' => 'root',
     ],
     'EXT' => [
