@@ -4,7 +4,8 @@ services:
     image: nginx:alpine
     volumes:
     - ../:/code
-    - typo3tempRamdisk:/code/typo3temp
+    - fileadminRamdisk:/code/.Buid/public/fileadmin
+    - typo3tempRamdisk:/code/.Buid/public/typo3temp
     - ./Configuration/web/nginx.conf:/etc/nginx/conf.d/default.conf
     expose: [80]
   db:
@@ -19,9 +20,12 @@ services:
     build: ./Configuration/php/
     volumes:
     - ../:/code
-    - typo3tempRamdisk:/code/typo3temp
+    - fileadminRamdisk:/code/.Buid/public/fileadmin
+    - typo3tempRamdisk:/code/.Buid/public/typo3temp
     - ./Configuration/php/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-custom-fpm.conf
     - ./Configuration/php/php.ini:/usr/local/etc/php/conf.d/zzz-custom.ini
+  mailhog:
+    image: mailhog/mailhog
   hostmap:
     image: dvdarias/docker-hoster
     volumes:
@@ -30,6 +34,10 @@ services:
 
 volumes:
   dbRamdisk:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  fileadminRamdisk:
     driver_opts:
       type: tmpfs
       device: tmpfs
