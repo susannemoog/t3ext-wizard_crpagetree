@@ -46,7 +46,7 @@
       "mkdir -p .Build/public/typo3temp/",
       "touch .Build/public/FIRST_INSTALL",
       "touch .Build/public/typo3conf/ENABLE_INSTALL_TOOL",
-      "chmod -R ugo+rwX .Build/public"
+      "chmod --quiet -R ugo+rwX .Build/public"
     ]
   },
   "license": "GPL-2.0+"

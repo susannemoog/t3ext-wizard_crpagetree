@@ -332,7 +332,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
      */
     private function displayCreatForm()
     {
-        $form = '<b>' . $this->getLanguageLabel('wiz_newPageTree') . ':</b><p>' . $this->getLanguageLabel('wiz_newPageTree_howto') . '</p>
+        $form = '<strong>' . $this->getLanguageLabel('wiz_newPageTree') . ':</strong><p>' . $this->getLanguageLabel('wiz_newPageTree_howto') . '</p>
 		' . $this->getLanguageLabel('wiz_newPageTree_indentationCharacter') . '
 		<select name="indentationCharacter">
 			<option value="space" selected="selected">' . $this->getLanguageLabel('wiz_newPageTree_indentationSpace') . '</option>
