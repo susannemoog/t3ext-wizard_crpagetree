@@ -4,10 +4,10 @@ services:
     image: nginx:alpine
     volumes:
     - ../:/code
-    - fileadminRamdisk:/code/.Build/public/fileadmin
-    - typo3confRamdisk:/code/.Build/public/typo3conf
-    - typo3tempRamdisk:/code/.Build/public/typo3temp
-    - ./Configuration/web/nginx.conf:/etc/nginx/conf.d/default.conf
+    - fileadminRamdisk:/code/.Build/public/fileadmin:ro
+    - typo3confRamdisk:/code/.Build/public/typo3conf:ro
+    - typo3tempRamdisk:/code/.Build/public/typo3temp:ro
+    - ./Configuration/web/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     expose: [80]
     depends_on:
       - db
@@ -17,9 +17,9 @@ services:
     env_file:
     - ./.env
     volumes:
-    - ./Configuration/db:/docker-entrypoint-initdb.d/
+    - ./Configuration/db:/docker-entrypoint-initdb.d/:ro
     - dbRamdisk:/var/lib/mysql
-    - ./Configuration/db/mysql.cnf:/etc/mysql/zzz-custom.cnf
+    - ./Configuration/db/mysql.cnf:/etc/mysql/zzz-custom.cnf:ro
   php:
     build: ./Configuration/php/
     volumes:
@@ -27,8 +27,8 @@ services:
     - fileadminRamdisk:/code/.Build/public/fileadmin
     - typo3confRamdisk:/code/.Build/public/typo3conf
     - typo3tempRamdisk:/code/.Build/public/typo3temp
-    - ./Configuration/php/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-custom-fpm.conf
-    - ./Configuration/php/php.ini:/usr/local/etc/php/conf.d/zzz-custom.ini
+    - ./Configuration/php/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-custom-fpm.conf:ro
+    - ./Configuration/php/php.ini:/usr/local/etc/php/conf.d/zzz-custom.ini:ro
     depends_on:
       - cp
   cp:
@@ -36,14 +36,14 @@ services:
     volumes:
     - .:/build
     - typo3confRamdisk:/typo3conf
-    command: "sh -c \"cp -u /build/Configuration/typo3/* /typo3conf/ && touch /typo3conf/ENABLE_INSTALL_TOOL && cp -ur /build/public/typo3conf/ext /typo3conf && chown -R 33:33 /typo3conf/*\""
+    command: "sh -c \"cp -ru /build/Configuration/typo3/* /typo3conf/ && touch /typo3conf/ENABLE_INSTALL_TOOL && cp -ru /build/public/typo3conf/ext /typo3conf && chown -R 33:33 /typo3conf/*\""
   mailhog:
     image: mailhog/mailhog
     expose: [8025]
   hostmap:
     image: dvdarias/docker-hoster
     volumes:
-    - /var/run/docker.sock:/tmp/docker.sock
+    - /var/run/docker.sock:/tmp/docker.sock:ro
     - /etc/hosts:/tmp/hosts
 
 volumes:
@@ -51,15 +51,19 @@ volumes:
     driver_opts:
       type: tmpfs
       device: tmpfs
+      o: noatime,nodev,nosuid,async,uid=33,gid=33,mode=0775
   fileadminRamdisk:
     driver_opts:
       type: tmpfs
       device: tmpfs
+      o: noatime,nodev,nosuid,async,uid=33,gid=33,mode=0775
   typo3confRamdisk:
     driver_opts:
       type: tmpfs
       device: tmpfs
+      o: noatime,nodev,nosuid,async,uid=33,gid=33,mode=0775
   typo3tempRamdisk:
     driver_opts:
       type: tmpfs
       device: tmpfs
+      o: noatime,nodev,nosuid,async,uid=33,gid=33,mode=0775
