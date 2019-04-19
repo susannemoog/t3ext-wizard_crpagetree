@@ -51,7 +51,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
                 if (count($data)) {
                     if (GeneralUtility::_POST('createInListEnd')) {
                         $endI = end($menuItems);
-                        $thePid = -intval($endI['uid']);
+                        $thePid = -(int)$endI['uid'];
                         if (!$thePid) {
                             $thePid = $this->pObj->id;
                         }
@@ -81,7 +81,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
                                 preg_match('/^' . $ic . '*/', $line, $regs);
                                 $level = strlen($regs[0]);
 
-                                if ($level == 0) {
+                                if ($level === 0) {
                                     $currentPid = $thePid;
                                     $parentPid[$level] = $thePid;
                                 } elseif ($level > $oldLevel) {
@@ -126,7 +126,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
                         $tce->process_datamap();
                         BackendUtility::setUpdateSignal('updatePageTree');
                     } else {
-                        $theCode .= $GLOBALS['TBE_TEMPLATE']->rfw($this->getLanguageLabel('wiz_newPageTree_noCreate') . '<br /><br />');
+                        $theCode .= $GLOBALS['TBE_TEMPLATE']->rfw($this->getLanguageLabel('wiz_newPageTree_noCreate') . '');
                     }
 
                     // Display result:
@@ -140,14 +140,14 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
                     if (version_compare(TYPO3_branch, '6.2', '>')) {
                         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
                         $tree->tree[] = [
-                            'row' => $pRec,
+                            'row'  => $pRec,
                             'HTML' => $iconFactory->getIconForRecord('pages', [$thePid], Icon::SIZE_SMALL)->render()
                         ];
                     }
                     if (version_compare(TYPO3_branch, '6.2', '=')) {
                         $tree->setTreeName('pageTree');
                         $tree->tree[] = [
-                            'row' => $pRec,
+                            'row'  => $pRec,
                             'HTML' => IconUtility::getSpriteIconForRecord('pages', $pRec)
                         ];
                     }
@@ -157,14 +157,14 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
                     $theCode .= $tree->printTree();
                 }
             } else {
-                $theCode .= $this->displayCreatForm();
+                $theCode .= $this->displayCreateForm();
             }
         } else {
             $theCode .= $GLOBALS['TBE_TEMPLATE']->rfw($this->getLanguageLabel('wiz_newPageTree_errorMsg1'));
         }
 
         // Context Sensitive Help
-        $theCode .= BackendUtility::cshItem('_MOD_web_func', 'tx_wizardcrpagetree', $GLOBALS['BACK_PATH'], '<br/>|');
+        $theCode .= BackendUtility::cshItem('_MOD_web_func', 'tx_wizardcrpagetree', $GLOBALS['BACK_PATH'], '|');
 
         return $this->pObj->doc->section($this->getLanguageLabel('wiz_crMany'), $theCode, 0, 1);
     }
@@ -172,7 +172,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
     /**
      * Return the data as a compressed array
      *
-     * @param   array $data : the uncompressed array
+     * @param array $data : the uncompressed array
      *
      * @return   array      the data as a compressed array
      */
@@ -194,9 +194,9 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
     /**
      * Return the data as a nested array
      *
-     * @param   array $data : the data array
-     * @param   int $oldLevel : the current level
-     * @param   string $character : indentation character
+     * @param array $data : the data array
+     * @param int $oldLevel : the current level
+     * @param string $character : indentation character
      *
      * @return   array      the data as a nested array
      */
@@ -242,7 +242,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
                 }
                 $oldLevel = $level;
             }
-            if ($i == $size) {
+            if ($i === $size) {
                 break;
             }
         }
@@ -253,7 +253,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
     /**
      * Return the data with all the leaves sorted in reverse order
      *
-     * @param   array $data : input array
+     * @param array $data : input array
      *
      * @return   array      the data reversed
      */
@@ -277,7 +277,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
     /**
      * Return the data without comment fields and empty lines
      *
-     * @param   array $data : input array
+     * @param array $data : input array
      *
      * @return   array      the data reversed
      */
@@ -287,11 +287,11 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
         $multiLine = false;
         foreach ($data as $value) {
             // Multiline comment
-            if (preg_match('#^/\*#', $value) and !$multiLine) {
+            if (preg_match('#^/\*#', $value) && !$multiLine) {
                 $multiLine = true;
                 continue;
             }
-            if (preg_match('#[\*]+/#', ltrim($value)) and $multiLine) {
+            if (preg_match('#[\*]+/#', ltrim($value)) && $multiLine) {
                 $multiLine = false;
                 continue;
             }
@@ -299,7 +299,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
                 continue;
             }
             // Single line comment
-            if (preg_match('#^//#', ltrim($value)) or preg_match('/^#/', ltrim($value))
+            if (preg_match('#^//#', ltrim($value)) || preg_match('/^#/', ltrim($value))
             ) {
                 continue;
             }
@@ -318,37 +318,75 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
     /**
      * Return html to display the creation form
      *
-     * @return   array      the data reversed
+     * @return string
      */
-    private function displayCreatForm()
+    private function displayCreateForm()
     {
-        $form = '<strong>' . $this->getLanguageLabel('wiz_newPageTree') . ':</strong><p>' . $this->getLanguageLabel('wiz_newPageTree_howto') . '</p>
-		' . $this->getLanguageLabel('wiz_newPageTree_indentationCharacter') . '
-		<select name="indentationCharacter">
-			<option value="space" selected="selected">' . $this->getLanguageLabel('wiz_newPageTree_indentationSpace') . '</option>
-			<option value="tab">' . $this->getLanguageLabel('wiz_newPageTree_indentationTab') . '</option>
-			<option value="dot">' . $this->getLanguageLabel('wiz_newPageTree_indentationDot') . '</option>
-		</select><br/>
-		<textarea name="data"' . $this->pObj->doc->formWidth(35) . ' rows="8"/></textarea>
-		<br />
-		<br />
-		<input type="checkbox" name="createInListEnd" value="1" /> ' . $this->getLanguageLabel('wiz_newPageTree_listEnd') . '<br />
-		<input type="checkbox" name="hidePages" value="1" /> ' . $this->getLanguageLabel('wiz_newPageTree_hidePages') . '<br />
-		<input type="submit" name="create" value="' . $this->getLanguageLabel('wiz_newPageTree_lCreate') . '" onclick="return confirm(' . GeneralUtility::quoteJSvalue($this->getLanguageLabel('wiz_newPageTree_lCreate_msg1')) . ')"> <input type="reset" value="' . $this->getLanguageLabel('wiz_newPageTree_lReset') . '" />
-		<br />
-		<br />
-		<b>' . $this->getLanguageLabel('wiz_newPageTree_advanced') . '</b><br/>
-		' . $this->getLanguageLabel('wiz_newPageTree_extraFields') . '<br />
-		<input type="text" name="extraFields" size="30" /><br />
-		' . $this->getLanguageLabel('wiz_newPageTree_separationCharacter') . '
-		<select name="separationCharacter">
-			<option value="comma" selected="selected">' . $this->getLanguageLabel('wiz_newPageTree_separationComma') . '</option>
-			<option value="pipe">' . $this->getLanguageLabel('wiz_newPageTree_separationPipe') . '</option>
-			<option value="semicolon">' . $this->getLanguageLabel('wiz_newPageTree_separationSemicolon') . '</option>
-			<option value="colon">' . $this->getLanguageLabel('wiz_newPageTree_separationColon') . '</option>
-		</select><br/>
-		<br/>
-		<input type="hidden" name="newPageTree" value="submit"/>';
+        $form = '<h1>' . $this->getLanguageLabel('wiz_newPageTree') . '</h1>
+        <div class="form-group">
+            <div class="form-section">
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <label for="page_new_0">
+                            ' . $this->getLanguageLabel('wiz_newPageTree_indentationCharacter') . '
+                        </label>
+                        <div class="form-control-wrap">
+                            <select name="indentationCharacter" class="form-control form-control-adapt">
+                                <option value="space" selected="selected">' . $this->getLanguageLabel('wiz_newPageTree_indentationSpace') . '</option>
+                                <option value="tab">' . $this->getLanguageLabel('wiz_newPageTree_indentationTab') . '</option>
+                                <option value="dot">' . $this->getLanguageLabel('wiz_newPageTree_indentationDot') . '</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-12">
+                        <label for="wiz_newPageTree_data">
+                            ' . $this->getLanguageLabel('wiz_newPageTree_howto') . '
+                        </label>
+                        <div class="form-control-wrap">
+                            <textarea class="form-control" id="wiz_newPageTree_data" name="data"' . $this->pObj->doc->formWidth(35) . ' rows="8"/></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <div class="checkbox">
+                            <label for="wiz_newPageTree_listEnd"><input type="checkbox" name="createInListEnd" id="wiz_newPageTree_listEnd" value="1" />' . $this->getLanguageLabel('wiz_newPageTree_listEnd') . '</label>
+                        </div>
+                        <div class="checkbox">
+                            <label for="wiz_newPageTree_hidePages"><input type="checkbox" name="hidePages" id="wiz_newPageTree_hidePages" value="1" />' . $this->getLanguageLabel('wiz_newPageTree_hidePages') . '</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        <h4>' . $this->getLanguageLabel('wiz_newPageTree_advanced') . '</h4>
+                    </div>
+                    <div class="form-group col-xs-12">
+                        <label for="wiz_newPageTree_extraFields">' . $this->getLanguageLabel('wiz_newPageTree_extraFields') . '</label>
+                        <input class="form-control" type="text" name="extraFields" size="30" id="wiz_newPageTree_extraFields"/>
+                    </div>
+                    <div class="form-group col-xs-12">
+                        <label for="wiz_newPageTree_separationCharacter">' . $this->getLanguageLabel('wiz_newPageTree_separationCharacter') . '</label>
+                        <select name="separationCharacter" class="form-control form-control-adapt" id="wiz_newPageTree_separationCharacter">
+                            <option value="comma" selected="selected">' . $this->getLanguageLabel('wiz_newPageTree_separationComma') . '</option>
+                            <option value="pipe">' . $this->getLanguageLabel('wiz_newPageTree_separationPipe') . '</option>
+                            <option value="semicolon">' . $this->getLanguageLabel('wiz_newPageTree_separationSemicolon') . '</option>
+                            <option value="colon">' . $this->getLanguageLabel('wiz_newPageTree_separationColon') . '</option>
+                        </select>
+                    </div>
+                    <input type="hidden" name="newPageTree" value="submit"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-xs-12">
+                <input class="btn btn-default t3js-wizardcrpages-createnewfields" type="submit" name="create" value="' . $this->getLanguageLabel('wiz_newPageTree_lCreate') . '" onclick="return confirm(' . GeneralUtility::quoteJSvalue($this->getLanguageLabel('wiz_newPageTree_lCreate_msg1')) . ')">
+                <input class="btn btn-default t3js-wizardcrpages-createnewfields" type="reset" value="' . $this->getLanguageLabel('wiz_newPageTree_lReset') . '" />
+            </div>
+        </div>
+        ';
 
         return $form;
     }
@@ -422,7 +460,7 @@ class CreatePageTree extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule
     /**
      * Get Language Label
      *
-     * @param   string $label
+     * @param string $label
      *
      * @return   string      The translated string
      */
