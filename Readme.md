@@ -1,4 +1,4 @@
-# TYPO3 extension wizard_crpagetree
-TYPO3 extension for creating complete page trees
+TYPO3 extension wizard_crpagetree
+=================================
 
-Now maintained over here: https://github.com/liayn/t3ext-wizard_crpagetree
+TYPO3 extension for creating complete page trees
