@@ -15,7 +15,7 @@
     }
   ],
   "keywords": [
-    "wizard"
+    "wizard", "typo3", "pages", "mass editing"
   ],
   "require": {
     "php": "^7",
