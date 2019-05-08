@@ -22,6 +22,9 @@ use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * Creates the "Create pagetree" wizard
+ *
+ * Old module for TYPO3 6.2, 7.6 and 8.7
+ *
  */
 class CreatePageTree extends AbstractFunctionModule
 {
@@ -117,7 +120,7 @@ class CreatePageTree extends AbstractFunctionModule
                         $tce->process_datamap();
                         BackendUtility::setUpdateSignal('updatePageTree');
                     } else {
-                        $theCode .= $GLOBALS['TBE_TEMPLATE']->rfw($this->getLanguageLabel('wiz_newPageTree_noCreate') . '');
+                        $theCode .= $GLOBALS['TBE_TEMPLATE']->rfw($this->getLanguageLabel('noCreate') . '');
                     }
 
                     // Display result:
@@ -135,14 +138,14 @@ class CreatePageTree extends AbstractFunctionModule
                     ];
                     $tree->getTree($thePid);
 
-                    $theCode .= $this->getLanguageLabel('wiz_newPageTree_created');
+                    $theCode .= $this->getLanguageLabel('created');
                     $theCode .= $tree->printTree();
                 }
             } else {
                 $theCode .= $this->displayCreateForm();
             }
         } else {
-            $theCode .= $GLOBALS['TBE_TEMPLATE']->rfw($this->getLanguageLabel('wiz_newPageTree_errorMsg1'));
+            $theCode .= $GLOBALS['TBE_TEMPLATE']->rfw($this->getLanguageLabel('errorMsg1'));
         }
 
         // Context Sensitive Help
@@ -304,25 +307,25 @@ class CreatePageTree extends AbstractFunctionModule
      */
     private function displayCreateForm()
     {
-        $form = '<h1>' . $this->getLanguageLabel('wiz_newPageTree') . '</h1>
+        $form = '<h1>' . $this->getLanguageLabel('title') . '</h1>
         <div class="form-group">
             <div class="form-section">
                 <div class="row">
                     <div class="form-group col-xs-12">
                         <label for="page_new_0">
-                            ' . $this->getLanguageLabel('wiz_newPageTree_indentationCharacter') . '
+                            ' . $this->getLanguageLabel('indentationCharacter') . '
                         </label>
                         <div class="form-control-wrap">
                             <select name="indentationCharacter" class="form-control form-control-adapt">
-                                <option value="space" selected="selected">' . $this->getLanguageLabel('wiz_newPageTree_indentationSpace') . '</option>
-                                <option value="tab">' . $this->getLanguageLabel('wiz_newPageTree_indentationTab') . '</option>
-                                <option value="dot">' . $this->getLanguageLabel('wiz_newPageTree_indentationDot') . '</option>
+                                <option value="space" selected="selected">' . $this->getLanguageLabel('indentationSpace') . '</option>
+                                <option value="tab">' . $this->getLanguageLabel('indentationTab') . '</option>
+                                <option value="dot">' . $this->getLanguageLabel('indentationDot') . '</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group col-xs-12">
-                        <label for="wiz_newPageTree_data">
-                            ' . $this->getLanguageLabel('wiz_newPageTree_howto') . '
+                        <label for="data">
+                            ' . $this->getLanguageLabel('howto') . '
                         </label>
                         <div class="form-control-wrap">
                             <textarea class="form-control" id="wiz_newPageTree_data" name="data" ' . $this->pObj->doc->formWidth(35) . ' rows="8"/></textarea>
@@ -332,29 +335,29 @@ class CreatePageTree extends AbstractFunctionModule
                 <div class="row">
                     <div class="form-group col-xs-12">
                         <div class="checkbox">
-                            <label for="wiz_newPageTree_listEnd"><input type="checkbox" name="createInListEnd" id="wiz_newPageTree_listEnd" value="1" />' . $this->getLanguageLabel('wiz_newPageTree_listEnd') . '</label>
+                            <label for="listEnd"><input type="checkbox" name="createInListEnd" id="listEnd" value="1" />' . $this->getLanguageLabel('listEnd') . '</label>
                         </div>
                         <div class="checkbox">
-                            <label for="wiz_newPageTree_hidePages"><input type="checkbox" name="hidePages" id="wiz_newPageTree_hidePages" value="1" />' . $this->getLanguageLabel('wiz_newPageTree_hidePages') . '</label>
+                            <label for="hidePages"><input type="checkbox" name="hidePages" id="hidePages" value="1" />' . $this->getLanguageLabel('hidePages') . '</label>
                         </div>
                     </div>
                 </div>
                 
                 <div class="row">
                     <div class="form-group col-xs-12">
-                        <h4>' . $this->getLanguageLabel('wiz_newPageTree_advanced') . '</h4>
+                        <h4>' . $this->getLanguageLabel('advanced') . '</h4>
                     </div>
                     <div class="form-group col-xs-12">
-                        <label for="wiz_newPageTree_extraFields">' . $this->getLanguageLabel('wiz_newPageTree_extraFields') . '</label>
-                        <input class="form-control" type="text" name="extraFields" size="30" id="wiz_newPageTree_extraFields"/>
+                        <label for="extraFields">' . $this->getLanguageLabel('extraFields') . '</label>
+                        <input class="form-control" type="text" name="extraFields" size="30" id="extraFields"/>
                     </div>
                     <div class="form-group col-xs-12">
-                        <label for="wiz_newPageTree_separationCharacter">' . $this->getLanguageLabel('wiz_newPageTree_separationCharacter') . '</label>
-                        <select name="separationCharacter" class="form-control form-control-adapt" id="wiz_newPageTree_separationCharacter">
-                            <option value="comma" selected="selected">' . $this->getLanguageLabel('wiz_newPageTree_separationComma') . '</option>
-                            <option value="pipe">' . $this->getLanguageLabel('wiz_newPageTree_separationPipe') . '</option>
-                            <option value="semicolon">' . $this->getLanguageLabel('wiz_newPageTree_separationSemicolon') . '</option>
-                            <option value="colon">' . $this->getLanguageLabel('wiz_newPageTree_separationColon') . '</option>
+                        <label for="separationCharacter">' . $this->getLanguageLabel('separationCharacter') . '</label>
+                        <select name="separationCharacter" class="form-control form-control-adapt" id="separationCharacter">
+                            <option value="comma" selected="selected">' . $this->getLanguageLabel('separationComma') . '</option>
+                            <option value="pipe">' . $this->getLanguageLabel('separationPipe') . '</option>
+                            <option value="semicolon">' . $this->getLanguageLabel('separationSemicolon') . '</option>
+                            <option value="colon">' . $this->getLanguageLabel('separationColon') . '</option>
                         </select>
                     </div>
                     <input type="hidden" name="newPageTree" value="submit"/>
@@ -364,8 +367,8 @@ class CreatePageTree extends AbstractFunctionModule
 
         <div class="row">
             <div class="form-group col-xs-12">
-                <input class="btn btn-default t3js-wizardcrpages-createnewfields" type="submit" name="create" value="' . $this->getLanguageLabel('wiz_newPageTree_lCreate') . '" onclick="return confirm(' . GeneralUtility::quoteJSvalue($this->getLanguageLabel('wiz_newPageTree_lCreate_msg1')) . ')">
-                <input class="btn btn-default t3js-wizardcrpages-createnewfields" type="reset" value="' . $this->getLanguageLabel('wiz_newPageTree_lReset') . '" />
+                <input class="btn btn-default t3js-wizardcrpages-createnewfields" type="submit" name="create" value="' . $this->getLanguageLabel('lCreate') . '" onclick="return confirm(' . GeneralUtility::quoteJSvalue($this->getLanguageLabel('lCreate_msg1')) . ')">
+                <input class="btn btn-default t3js-wizardcrpages-createnewfields" type="reset" value="' . $this->getLanguageLabel('lReset') . '" />
             </div>
         </div>
         ';
@@ -448,7 +451,7 @@ class CreatePageTree extends AbstractFunctionModule
      */
     private function getLanguageLabel($label)
     {
-        return $GLOBALS['LANG']->sL('LLL:EXT:wizard_crpagetree/Resources/Private/Language/locallang.xml:' . $label);
+        return $GLOBALS['LANG']->sL('LLL:EXT:wizard_crpagetree/Resources/Private/Language/locallang.xlf:' . $label);
     }
 
     /**
