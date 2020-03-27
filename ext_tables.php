@@ -1,7 +1,7 @@
 <?php
 defined('TYPO3_MODE') || die('( ͡ಠ ʖ̯ ͡ಠ)╭∩╮');
 
-if (TYPO3_MODE === 'BE') {
+if (TYPO3_MODE === 'BE' && version_compare(TYPO3_branch, '9.5', '<')) {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::insertModuleFunction(
         'web_func',
         \MichielRoos\WizardCrpagetree\CreatePageTree::class,
