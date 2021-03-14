@@ -1,31 +1,39 @@
 {
-  "name": "reelworx/wizard_crpagetree",
-  "type": "typo3-cms-extension",
-  "description": "Wizard that will create a page tree for you. Feed it with a space indented tree structure of the desired pages and the pages will be created for you.",
-  "license": "GPL-2.0-or-later",
-  "authors": [
-    {
-      "name": "Michiel Roos",
-      "role": "Developer"
-    },
-    {
-      "name": "Reelworx GmbH",
-      "role": "Maintainer",
-      "homepage": "https://reelworx.at/"
-    }
-  ],
-  "keywords": [
-    "wizard", "typo3", "pages", "mass editing"
-  ],
-  "require": {
-    "typo3/cms-core": "^8.7 || ^9.5 || ^10.4"
-  },
-  "replace": {
-    "typo3-ter/wizard_crpagetree": "self.version"
-  },
-  "autoload": {
-    "psr-4": {
-      "MichielRoos\\WizardCrpagetree\\": "Classes"
-    }
-  }
+	"name": "reelworx/wizard_crpagetree",
+	"type": "typo3-cms-extension",
+	"description": "Wizard that will create a page tree for you. Feed it with a space indented tree structure of the desired pages and the pages will be created for you.",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Michiel Roos",
+			"role": "Developer"
+		},
+		{
+			"name": "Reelworx GmbH",
+			"role": "Maintainer",
+			"homepage": "https://reelworx.at/"
+		}
+	],
+	"keywords": [
+		"wizard",
+		"typo3",
+		"pages",
+		"mass editing"
+	],
+	"require": {
+		"typo3/cms-core": "^9.5 || ^10.4"
+	},
+	"replace": {
+		"typo3-ter/wizard_crpagetree": "self.version"
+	},
+	"autoload": {
+		"psr-4": {
+			"MichielRoos\\WizardCrpagetree\\": "Classes"
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "wizard_crpagetree"
+		}
+	}
 }
