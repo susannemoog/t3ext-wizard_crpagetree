@@ -40,11 +40,6 @@ class NewPagetreeController
      */
     protected $moduleTemplate;
 
-    /**
-     * Constructor Method
-     *
-     * @var ModuleTemplate $moduleTemplate
-     */
     public function __construct(ModuleTemplate $moduleTemplate = null)
     {
         $this->moduleTemplate = $moduleTemplate ?? GeneralUtility::makeInstance(ModuleTemplate::class);
@@ -72,6 +67,7 @@ class NewPagetreeController
         }
 
         // Doc header handling
+        /** @var IconFactory $iconFactory */
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $this->moduleTemplate->getDocHeaderComponent()->setMetaInformation($pageRecord);
         $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
@@ -89,6 +85,7 @@ class NewPagetreeController
         $buttonBar->addButton($cshButton)->addButton($viewButton)->addButton($shortcutButton);
 
         // Main view setup
+        /** @var StandaloneView $view */
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
             'EXT:wizard_crpagetree/Resources/Private/Templates/Page/NewPagetree.html'
@@ -127,17 +124,13 @@ class NewPagetreeController
             }
 
             // Display result:
+            /** @var BrowseTreeView $tree */
             $tree = GeneralUtility::makeInstance(BrowseTreeView::class);
             $tree->init(' AND pages.doktype < 199 AND pages.hidden = "0"');
             $tree->thisScript = '#';
             $tree->ext_IconMode = true;
             $tree->expandAll = true;
 
-            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-//            $tree->tree[] = [
-//                'row'  => $pageRecord,
-//                'HTML' => $iconFactory->getIconForRecord('pages', [$pageUid], Icon::SIZE_SMALL)->render()
-//            ];
             $tree->getTree($pageUid);
 
             $view->assign('createdPages', $tree->printTree());
@@ -189,7 +182,7 @@ class NewPagetreeController
         $oldLevel = 0;
         $parentPid = [];
         $currentPid = 0;
-        foreach ($data as $k => $line) {
+        foreach ($data as $line) {
             if (trim($line)) {
                 // What level are we on?
                 preg_match('/^' . $ic . '*/', $line, $regs);
@@ -232,6 +225,7 @@ class NewPagetreeController
 
         if (!empty($commandArray)) {
             $pagesCreated = true;
+            /** @var DataHandler $dataHandler */
             $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
             // Set default TCA values specific for the user
             $backendUser = $this->getBackendUser();
@@ -398,7 +392,7 @@ class NewPagetreeController
                 $multiLine = true;
                 continue;
             }
-            if ($multiLine && preg_match('#[\*]+/#', ltrim($value))) {
+            if ($multiLine && preg_match('#[*]+/#', ltrim($value))) {
                 $multiLine = false;
                 continue;
             }

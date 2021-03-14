@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace MichielRoos\WizardCrpagetree\ContextMenu;
 
 use TYPO3\CMS\Backend\ContextMenu\ItemProviders\PageProvider;
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -69,13 +70,14 @@ class ItemProvider extends PageProvider
 
     /**
      * @param string $itemName
-     * @return array
-     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+     * @return array|string[]
+     * @throws RouteNotFoundException
      */
     protected function getAdditionalAttributes(string $itemName): array
     {
         $attributes = [];
         if ($itemName === 'pagesNewTree') {
+            /** @var Uribuilder $uriBuilder */
             $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
             $attributes += [
                 'data-page-new-tree-url' => (string)$uriBuilder->buildUriFromRoute('pagetree_new', ['id' => $this->record['uid']]),
