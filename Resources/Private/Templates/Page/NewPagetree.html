@@ -1,4 +1,5 @@
 <html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
     xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
     xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
     data-namespace-typo3-fluid="true"
@@ -59,7 +60,7 @@
                                         <f:translate key="indentationCharacter" extensionName="wizard_crpagetree" />
                                     </label>
                                     <div class="form-control-wrap">
-                                        <select name="indentationCharacter" class="form-control form-control-adapt">
+                                        <select name="indentationCharacter" id="page_new_0" class="form-control form-control-adapt">
                                             <option value="space" selected="selected"><f:translate key="indentationSpace" extensionName="wizard_crpagetree" /></option>
                                             <option value="tab"><f:translate key="indentationTab" extensionName="wizard_crpagetree" /></option>
                                             <option value="dot"><f:translate key="indentationDot" extensionName="wizard_crpagetree" /></option>
@@ -71,7 +72,7 @@
                                         <f:translate key="howto" extensionName="wizard_crpagetree" />
                                     </label>
                                     <div class="form-control-wrap">
-                                        <textarea class="form-control" id="pageTree" name="pageTree" rows="8"/></textarea>
+                                        <textarea class="form-control" id="pageTree" name="pageTree" rows="8"></textarea>
                                     </div>
                                 </div>
                             </div>
