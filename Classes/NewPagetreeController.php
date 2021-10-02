@@ -4,6 +4,7 @@ namespace MichielRoos\WizardCrpagetree;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Backend\Routing\PreviewUriBuilder;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Tree\View\BrowseTreeView;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -14,6 +15,7 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -75,10 +77,22 @@ class NewPagetreeController
             ->setModuleName('pagetree_new')
             ->setFieldName('pagetree_new');
         $viewButton = $buttonBar->makeLinkButton()
-            ->setOnClick(BackendUtility::viewOnClick($pageUid, '', BackendUtility::BEgetRootLine($pageUid)))
             ->setTitle($this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showPage'))
             ->setIcon($iconFactory->getIcon('actions-view-page', Icon::SIZE_SMALL))
             ->setHref('#');
+        if (class_exists(Typo3Version::class)
+            && GeneralUtility::makeInstance(Typo3Version::class)->getMajorVersion() >= 11
+        ) {
+            $previewDataAttributes = PreviewUriBuilder::create($pageUid)
+                ->withRootLine(BackendUtility::BEgetRootLine($pageUid))
+                ->buildDispatcherDataAttributes();
+            $viewButton->setDataAttributes($previewDataAttributes ?? []);
+        } else {
+            // @deprecated Using inline JavaScript is deprecated since TYPO3 v11.5 and will be removed in TYPO3 v12.0
+            $viewButton->setOnClick(
+                BackendUtility::viewOnClick($pageUid, '', BackendUtility::BEgetRootLine($pageUid))
+            );
+        }
         $shortcutButton = $buttonBar->makeShortcutButton()
             ->setModuleName('pagetree_new')
             ->setGetVariables(['id']);
