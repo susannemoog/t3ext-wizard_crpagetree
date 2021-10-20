@@ -35,6 +35,9 @@
 	"extra": {
 		"typo3/cms": {
 			"extension-key": "wizard_crpagetree"
+		},
+		"branch-alias": {
+			"dev-master": "5.0.x-dev"
 		}
 	}
 }
