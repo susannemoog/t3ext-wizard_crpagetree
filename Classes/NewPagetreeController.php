@@ -2,11 +2,11 @@
 declare(strict_types=1);
 namespace MichielRoos\WizardCrpagetree;
 
+use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Backend\Routing\PreviewUriBuilder;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
-use TYPO3\CMS\Backend\Tree\View\BrowseTreeView;
+use TYPO3\CMS\Backend\Tree\View\ElementBrowserPageTreeView;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -80,10 +80,11 @@ class NewPagetreeController
             ->setTitle($this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showPage'))
             ->setIcon($iconFactory->getIcon('actions-view-page', Icon::SIZE_SMALL))
             ->setHref('#');
-        if (class_exists(Typo3Version::class)
-            && GeneralUtility::makeInstance(Typo3Version::class)->getMajorVersion() >= 11
-        ) {
-            $previewDataAttributes = PreviewUriBuilder::create($pageUid)
+
+        $isV11 = class_exists(Typo3Version::class)
+             && GeneralUtility::makeInstance(Typo3Version::class)->getMajorVersion() >= 11;
+        if ($isV11) {
+            $previewDataAttributes = \TYPO3\CMS\Backend\Routing\PreviewUriBuilderPreviewUriBuilder::create($pageUid)
                 ->withRootLine(BackendUtility::BEgetRootLine($pageUid))
                 ->buildDispatcherDataAttributes();
             $viewButton->setDataAttributes($previewDataAttributes ?? []);
@@ -138,12 +139,15 @@ class NewPagetreeController
             }
 
             // Display result:
-            /** @var BrowseTreeView $tree */
-            $tree = GeneralUtility::makeInstance(BrowseTreeView::class);
+            // todo check if this is correct at all
+            $tree = GeneralUtility::makeInstance(ElementBrowserPageTreeView::class);
             $tree->init(' AND pages.doktype < 199 AND pages.hidden = "0"');
             $tree->thisScript = '#';
-            $tree->ext_IconMode = true;
-            $tree->expandAll = true;
+            if (!$isV11) {
+                // properties are gone in v11
+                $tree->ext_IconMode = true;
+                $tree->expandAll = true;
+            }
 
             $tree->getTree($pageUid);
 
@@ -271,11 +275,11 @@ class NewPagetreeController
             ->where(
                 $queryBuilder->expr()->eq(
                     'pid',
-                    $queryBuilder->createNamedParameter($pageUid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($pageUid, PDO::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     $GLOBALS['TCA']['pages']['ctrl']['languageField'],
-                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter(0, PDO::PARAM_INT)
                 )
             )
             ->orderBy('sorting')
@@ -315,7 +319,7 @@ class NewPagetreeController
      *
      * @return   array      the data as a nested array
      */
-    private function getArray(array $data, int $oldLevel = 0, $character = ' '): array
+    private function getArray(array $data, int $oldLevel = 0, string $character = ' '): array
     {
         $size = count($data);
         $newData = [];
