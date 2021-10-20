@@ -32,7 +32,6 @@
     "vendor-dir": ".Build/public/vendor"
   },
   "replace": {
-    "wizard_crpagetree": "self.version",
     "typo3-ter/wizard_crpagetree": "self.version"
   },
   "autoload": {
