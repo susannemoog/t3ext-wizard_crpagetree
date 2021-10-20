@@ -6,6 +6,12 @@
 Change log
 ==========
 
+Version 5.0.2
+-------------
+
+* Added requirement on Core to enable docs rendering
+
+
 Version 5.0.1
 -------------
 
