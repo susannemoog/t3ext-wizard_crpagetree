@@ -6,6 +6,7 @@ use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Backend\Tree\View\BrowseTreeView;
 use TYPO3\CMS\Backend\Tree\View\ElementBrowserPageTreeView;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
@@ -139,12 +140,16 @@ class NewPagetreeController
             }
 
             // Display result:
-            // todo check if this is correct at all
-            $tree = GeneralUtility::makeInstance(ElementBrowserPageTreeView::class);
-            $tree->init(' AND pages.doktype < 199 AND pages.hidden = "0"');
-            $tree->thisScript = '#';
-            if (!$isV11) {
-                // properties are gone in v11
+            if ($isV11) {
+                // todo check if this is correct at all
+                $tree = GeneralUtility::makeInstance(ElementBrowserPageTreeView::class);
+                $tree->init(' AND pages.doktype < 199 AND pages.hidden = "0"');
+                $tree->thisScript = '#';
+            } else {
+                /** @var BrowseTreeView $tree */
+                $tree = GeneralUtility::makeInstance(BrowseTreeView::class);
+                $tree->init(' AND pages.doktype < 199 AND pages.hidden = "0"');
+                $tree->thisScript = '#';
                 $tree->ext_IconMode = true;
                 $tree->expandAll = true;
             }
