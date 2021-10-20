@@ -1,36 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xliff version="1.0" xmlns="urn:oasis:names:tc:xliff:document:1.1">
-    <file source-language="en" datatype="plaintext"
-          original="EXT:wizard_crpagetree/Resources/Private/Language/ContextSensitiveHelp/default.xlf"
-          data="2019-05-07T18-05-38" product-name="wizard_crpagetree">
-        <header/>
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns:t3="http://typo3.org/schemas/xliff" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" original="EXT:wizard_crpagetree/Resources/Private/Language/ContextSensitiveHelp/default.xlf" datatype="plaintext" product-name="wizard_crpagetree" date="2021-10-20T10:10:34+02:00">
+        <header></header>
         <body>
+            <trans-unit id="_tx_wizardcrpagetree.image" resname="_tx_wizardcrpagetree.image">
+                <source>EXT:wizard_crpagetree/Resources/Public/Images/crpagetree_1.png,&#xA;EXT:wizard_crpagetree/Resources/Public/Images/crpagetree_2.png</source>
+            </trans-unit>
             <trans-unit id="tx_wizardcrpagetree.alttitle" resname="tx_wizardcrpagetree.alttitle">
                 <source>Create Page tree wizard</source>
             </trans-unit>
-            <trans-unit id="tx_wizardcrpagetree.description" resname="tx_wizardcrpagetree.description" xml:space="preserve">
-               <source>Enables you to create a batch of new, empty pages for quickly building up a new page tree.
-                    Just enter the titles for the pages you need. Every indentation character stands for a level in the tree. C-style comments ('//', '#' and '/***/') and empty lines are ignored.</source>
+            <trans-unit id="tx_wizardcrpagetree.description" resname="tx_wizardcrpagetree.description">
+                <source>Enables you to create a batch of new, empty pages for quickly building up a new page tree.&#xA;                    Just enter the titles for the pages you need. Every indentation character stands for a level in the tree. C-style comments (&#39;//&#39;, &#39;#&#39; and &#39;/***/&#39;) and empty lines are ignored.</source>
             </trans-unit>
-            <trans-unit id="tx_wizardcrpagetree.details" resname="tx_wizardcrpagetree.details" xml:space="preserve">
-                <source>The new pages will always be created as subpages of the currently active page in the page tree. This page is shown in the top of the page. In the example image below it is "/Intro/Startpage/".
-
-&lt;b&gt;"Place new pages after the existing subpages"&lt;/b&gt;
-If you select this option the pages will be create &lt;em&gt;after&lt;/em&gt; any existing subpages.
-
-&lt;b&gt;"Hide new pages"&lt;/b&gt;
-Select this if the new pages should be hidden by default. This option may be forced upon you if you do not have credentials to create new, online pages.
-
-&lt;b&gt;Advanced&lt;/b&gt;
-You may add additional field values (besides title) to the created pages. Specify the values after the title, separated by the 'field value separation character'. Then specify which fields the values should map to. In the example the extra fields 'description' and 'shortcut' are set for the created pages.</source>
+            <trans-unit id="tx_wizardcrpagetree.details" resname="tx_wizardcrpagetree.details">
+                <source>The new pages will always be created as subpages of the currently active page in the page tree. This page is shown in the top of the page. In the example image below it is &#34;/Intro/Startpage/&#34;.&#xA;&#xA;&lt;b&gt;&#34;Place new pages after the existing subpages&#34;&lt;/b&gt;&#xA;If you select this option the pages will be create &lt;em&gt;after&lt;/em&gt; any existing subpages.&#xA;&#xA;&lt;b&gt;&#34;Hide new pages&#34;&lt;/b&gt;&#xA;Select this if the new pages should be hidden by default. This option may be forced upon you if you do not have credentials to create new, online pages.&#xA;&#xA;&lt;b&gt;Advanced&lt;/b&gt;&#xA;You may add additional field values (besides title) to the created pages. Specify the values after the title, separated by the &#39;field value separation character&#39;. Then specify which fields the values should map to. In the example the extra fields &#39;description&#39; and &#39;shortcut&#39; are set for the created pages.</source>
             </trans-unit>
-            <trans-unit id="_tx_wizardcrpagetree.image" resname="_tx_wizardcrpagetree.image" xml:space="preserve">
-                <source>EXT:wizard_crpagetree/Resources/Public/Images/crpagetree_1.png,
-EXT:wizard_crpagetree/Resources/Public/Images/crpagetree_2.png</source>
-            </trans-unit>
-            <trans-unit id="tx_wizardcrpagetree.image_descr" resname="tx_wizardcrpagetree.image_descr" xml:space="preserve">
-                <source>Simply enter a space delimited list of titles and generate an entire tree at once.
-After pressing the "Create page tree" button the page tree to the left will update instantly, showing you the position of the new pages!</source>
+            <trans-unit id="tx_wizardcrpagetree.image_descr" resname="tx_wizardcrpagetree.image_descr">
+                <source>Simply enter a space delimited list of titles and generate an entire tree at once.&#xA;After pressing the &#34;Create page tree&#34; button the page tree to the left will update instantly, showing you the position of the new pages!</source>
             </trans-unit>
         </body>
     </file>
