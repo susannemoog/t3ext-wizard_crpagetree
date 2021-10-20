@@ -124,7 +124,8 @@
                             type="submit"
                             name="create"
                             value="{f:translate(key:'lCreate', extensionName:'wizard_crpagetree')}"
-                            onclick="return confirm({f:translate(key:'lCreate_msg1', extensionName:'wizard_crpagetree')})"
+                            data-message="{f:translate(key:'lCreate_msg1', extensionName:'wizard_crpagetree')}"
+                            onclick="return confirm(this.dataset.message)"
                         />
                         <input
                             class="btn btn-default"
