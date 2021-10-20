@@ -22,6 +22,7 @@
 	],
 	"require": {
 		"ext-pdo": "*",
+		"typo3/cms-core": "^10.4 | ^11.5",
 		"typo3/cms-backend": "^10.4 | ^11.5"
 	},
 	"replace": {
