@@ -20,6 +20,7 @@ class BackendControllerHook
      * @param array $configuration
      * @param BackendController $backendController
      * @throws RouteNotFoundException
+     * @noinspection PhpUnusedParameterInspection
      */
     public function addJavaScript(array $configuration, BackendController $backendController)
     {
